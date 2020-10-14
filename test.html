@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+    <script>
+
+        $(document).ready(function(){
+            //steps 隨機步數
+            var steps = Math.floor(Math.random()*(350000 - 300000 + 1) + 300000);
+            $('#steps').val(steps);
+
+            //month 月份
+            var d = new Date();
+            var year = d.getFullYear();
+            var month = d.getMonth();
+
+            if ( month < '10' ){
+                monthday = '0' + month;
+            }
+            if ( month >= '10' ){
+                monthday = month;
+            }
+            var dateall = year + '-' + monthday
+            $('#monthumber').val(dateall);
+
+            sumall(steps);
+        });
+
+        //月份日期
+        var getDaysInMonth = function(month,year) {
+			return new Date(year, month, 0).getDate();
+		}
+
+        //日期天數
+        var getday = getDaysInMonth(9, 2020);
+
+        console.log('天數'+getday);
+
+        $(function(){
+            $('button').click(function(){
+                console.log($('#monthumber').val());
+            });
+        });
+
+        
+
+        //依據
+        //357392步
+        //活動總計66時36分
+        //總理程263.5公里
+        //總消耗5,891大卡
+
+        function sumall(steps){
+            var steps_minute = 89.43743743743744;
+            console.log(steps);
+
+            var minute_sum = steps / steps_minute;
+            //time sum
+            var num = minute_sum;
+            var hours = (num / 60);
+            var rhours = Math.floor(hours);
+            var minutes = (hours - rhours) * 60;
+            var rminutes = Math.round(minutes);
+            var time = num + " minutes = " + rhours + " hour(s) and " + rminutes + " minute(s).";      
+            console.log(time);      
+            console.log('活動總計'+rhours+'時'+rminutes+'分');
+
+            //mileage
+            // var mileage_minute = 1356.326375711575;
+            // var mileage = minute_sum * mileage_minute;    
+            var mileage_minute = 73.7285669516945;
+            var mileage = steps * mileage_minute;      
+            var mileagesum = mileage/100000; //(公里)
+            //console.log(mileagesum);   
+            console.log('總理程'+mileagesum.toFixed(1)+'公里');
+
+            //calories
+            var calories_minute = 0.0164833012490487;
+            //var calories = Math.round(minute_sum * calories_minute);
+            var calories = Math.round(steps * calories_minute);
+            //轉小數點
+            var caloriessum = (calories).toLocaleString('en');
+            //console.log(calories); 未轉小數點
+            console.log('總消耗'+caloriessum+'大卡');
+        }
+
+        
+
+    </script>
+<body>
+    <form class="p-5">
+        <div class="form-group">
+          <label for="steps">A few steps?</label>
+          <input type="number"" class="form-control" id="steps" min="30000" required>
+          <small class="form-text text-muted">Enter your steps, no less than 30,000.</small>
+        </div>
+        <div class="form-group">
+          <label for="monthumber">Month</label>
+          <input type="month" class="form-control" id="monthumber" required>
+          <small class="form-text text-muted">Regardless of age, he is useless.</small>
+        </div>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </form>    
+</body>
+</html>
